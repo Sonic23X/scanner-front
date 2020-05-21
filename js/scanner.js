@@ -3,6 +3,8 @@ const EMPRESA = localStorage.getItem( 'empresa' );
 const PROCESO = localStorage.getItem( 'proceso' );
 const TOKEN = localStorage.getItem( 'token' );
 
+let movil = 0;
+
 function scanQR(node)
 {
   let reader = new FileReader();
@@ -47,29 +49,60 @@ function updateFile()
   {
     $( '.img' ).attr( 'src', '' );
   }
+
 }
 
 function scanBarCode( )
 {
-      const codeReader = new ZXing.BrowserBarcodeReader();
-      const img = $( '.img' )[0].cloneNode(true);
+  if ( movil == 0 )
+  {
+    const codeReader = new ZXing.BrowserBarcodeReader();
+    const img = $( '.img' )[0].cloneNode(true);
 
-      codeReader.decodeFromImage(img)
-                .then(result =>
-                {
-                  $( '.resultScan' ).html(result.text);
-                  $( '#scan-type' ).removeClass( 'fa-qrcode' );
-                  $( '#scan-type' ).addClass( 'fa-barcode' );
-                })
-                .catch(err =>
-                {
-                  alert( 'Error al analizar el código de barras' );
-                  console.log(err);
-                });
+    codeReader.decodeFromImage(img)
+              .then(result =>
+              {
+                $( '.resultScan' ).html(result.text);
+                $( '#scan-type' ).removeClass( 'fa-qrcode' );
+                $( '#scan-type' ).addClass( 'fa-barcode' );
+              })
+              .catch(err =>
+              {
+                alert( 'Error al analizar el código de barras' );
+                console.log(err);
+              });
+  }
+  else
+  {
+    Quagga.decodeSingle({
+        decoder: {
+            readers: ["code_128_reader"] // List of active readers
+        },
+        locate: true, // try to locate the barcode in the image
+        src: $( '.img' ).attr( 'src' ); // or 'data:image/jpg;base64,' + data
+    }, function(result){
+        if(result.codeResult) {
+            console.log("result", result.codeResult.code);
+        } else {
+            console.log("not detected");
+        }
+    });
+  }
 }
 
 $(document).ready(() =>
 {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+  if (/android/i.test(userAgent))
+  {
+    movil = 1;
+  }
+
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream)
+  {
+    movil = 1;
+  }
 
   if ( TOKEN != null || TOKEN != undefined )
   {  }
