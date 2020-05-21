@@ -14,7 +14,7 @@ function scanQR(node)
     {
       if ( !( res instanceof Error ) )
       {
-        $( '.resultScan' ).html(result.text);
+        $( '.resultScan' ).html(res);
         $( '#scan-type' ).removeClass( 'fa-barcode' );
         $( '#scan-type' ).addClass( 'fa-qrcode' );
       }
@@ -28,13 +28,25 @@ function scanQR(node)
   reader.readAsDataURL(node.files[0]);
 }
 
-function updateFile( )
+function updateFile()
 {
-  let img = URL.createObjectURL( $( '#fileBar' )[0].files[0] );
+  let reader = new FileReader();
+  let file = $( '#fileBar' )[0].files[0];
 
-  $( '.img' ).attr( 'src', img );
+  reader.onload = function()
+  {
+    $( '.img' ).attr( 'src', reader.result );
+    scanBarCode();
+  };
 
-  scanBarCode();
+  if ( file )
+  {
+    reader.readAsDataURL( file );
+  }
+  else
+  {
+    $( '.img' ).attr( 'src', '' );
+  }
 }
 
 function scanBarCode( )
