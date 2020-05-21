@@ -32,78 +32,70 @@ function scanQR(node)
 
 function updateFile()
 {
-  let reader = new FileReader();
-  let file = $( '#fileBar' )[0].files[0];
+  let img = URL.createObjectURL( $( '#fileBar' )[0].files[0] );
 
-  reader.onload = function()
-  {
-    $( '.img' ).attr( 'src', reader.result );
-    scanBarCode();
-  };
+  $( '.img' ).attr( 'src', img );
+  $( '.img' ).show();
+  $( '.img' ).css('width', '100px');
+  $( '.img' ).css('height', '100px');
 
-  if ( file )
-  {
-    reader.readAsDataURL( file );
-  }
-  else
-  {
-    $( '.img' ).attr( 'src', '' );
-  }
-
+  scanBarCodeQuagga( img );
+  //scanBarCodeZebra();
 }
 
-function scanBarCode( )
+function scanBarCodeZebra()
 {
-  if ( movil == 0 )
-  {
-    const codeReader = new ZXing.BrowserBarcodeReader();
-    const img = $( '.img' )[0].cloneNode(true);
+  const codeReader = new ZXing.BrowserBarcodeReader();
+  const img = $( '.img' )[0].cloneNode(true);
 
-    codeReader.decodeFromImage(img)
-              .then(result =>
-              {
-                $( '.resultScan' ).html(result.text);
-                $( '#scan-type' ).removeClass( 'fa-qrcode' );
-                $( '#scan-type' ).addClass( 'fa-barcode' );
-              })
-              .catch(err =>
-              {
-                alert( 'Error al analizar el código de barras' );
-                console.log(err);
-              });
-  }
-  else
+  codeReader.decodeFromImage(img)
+            .then(result =>
+            {
+              $( '.resultScan' ).html(result);
+              $( '#scan-type' ).removeClass( 'fa-qrcode' );
+              $( '#scan-type' ).addClass( 'fa-barcode' );
+            })
+            .catch(err =>
+            {
+              alert( 'Error al escanear' );
+            });
+}
+
+function scanBarCodeQuagga( image )
+{
+  Quagga.decodeSingle(
   {
-    Quagga.decodeSingle({
-        decoder: {
-            readers: ["code_128_reader"] // List of active readers
-        },
-        locate: true, // try to locate the barcode in the image
-        src: $( '.img' ).attr( 'src' ); // or 'data:image/jpg;base64,' + data
-    }, function(result){
-        if(result.codeResult) {
-            alert("result", result.codeResult.code);
-        } else {
-            alert("not detected");
-        }
-    });
-  }
+    decoder:
+    {
+      readers: ["code_128_reader"]
+    },
+    locate: true,
+    numOfWorkers: 0,
+    inputStream:
+    {
+      size: 800
+    },
+    src: image
+  },
+  function(result)
+  {
+    console.log(result);
+
+    if(result.codeResult)
+    {
+      $( '.resultScan' ).html(result.codeResult.code);
+      $( '#scan-type' ).removeClass( 'fa-qrcode' );
+      $( '#scan-type' ).addClass( 'fa-barcode' );
+    } else
+    {
+        alert( 'Error al escanear' );
+    }
+  });
 }
 
 $(document).ready(() =>
 {
-  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-  if (/android/i.test(userAgent))
-  {
-    movil = 1;
-  }
-
-  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream)
-  {
-    movil = 1;
-  }
-
+  
   if ( TOKEN != null || TOKEN != undefined )
   {  }
   else
