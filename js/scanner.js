@@ -35,9 +35,6 @@ function updateFile()
   let img = URL.createObjectURL( $( '#fileBar' )[0].files[0] );
 
   $( '.img' ).attr( 'src', img );
-  $( '.img' ).show();
-  $( '.img' ).css('width', '100px');
-  $( '.img' ).css('height', '100px');
 
   scanBarCodeQuagga( img );
   //scanBarCodeZebra();
@@ -67,7 +64,7 @@ function scanBarCodeQuagga( image )
   {
     decoder:
     {
-      readers: ["code_128_reader"]
+      readers: ['code_128_reader', 'code_39_reader']
     },
     locate: true,
     numOfWorkers: 0,
@@ -95,7 +92,7 @@ function scanBarCodeQuagga( image )
 
 $(document).ready(() =>
 {
-  
+
   if ( TOKEN != null || TOKEN != undefined )
   {  }
   else
