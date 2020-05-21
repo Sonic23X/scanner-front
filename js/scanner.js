@@ -14,7 +14,9 @@ function scanQR(node)
     {
       if ( !( res instanceof Error ) )
       {
-        alert( res );
+        $( '.resultScan' ).html(result.text);
+        $( '#scan-type' ).removeClass( 'fa-barcode' );
+        $( '#scan-type' ).addClass( 'fa-qrcode' );
       }
       else
       {
@@ -43,11 +45,13 @@ function scanBarCode( )
       codeReader.decodeFromImage(img)
                 .then(result =>
                 {
-                  console.log(result);
+                  $( '.resultScan' ).html(result.text);
+                  $( '#scan-type' ).removeClass( 'fa-qrcode' );
+                  $( '#scan-type' ).addClass( 'fa-barcode' );
                 })
                 .catch(err =>
                 {
-                  console.error(err);
+                  alert( 'Error al analizar el código de barras' );
                 });
 }
 
@@ -55,9 +59,7 @@ $(document).ready(() =>
 {
 
   if ( TOKEN != null || TOKEN != undefined )
-  {
-
-  }
+  {  }
   else
     window.location.href = './login.html';
 
