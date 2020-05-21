@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000/api/';
+const API_URL = 'https://cloud-scanner.cludevs.com.mx/api/';
 const EMPRESA = localStorage.getItem( 'empresa' );
 const PROCESO = localStorage.getItem( 'proceso' );
 const TOKEN = localStorage.getItem( 'token' );
@@ -64,6 +64,7 @@ function scanBarCode( )
                 .catch(err =>
                 {
                   alert( 'Error al analizar el código de barras' );
+                  console.log(err);
                 });
 }
 

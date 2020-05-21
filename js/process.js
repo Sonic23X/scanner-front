@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000/api/';
+const API_URL = 'https://cloud-scanner.cludevs.com.mx/api/';
 const EMPRESA = localStorage.getItem( 'empresa' );
 const TOKEN = localStorage.getItem( 'token' );
 
