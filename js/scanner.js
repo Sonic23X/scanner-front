@@ -82,9 +82,9 @@ function scanBarCode( )
         src: $( '.img' ).attr( 'src' ); // or 'data:image/jpg;base64,' + data
     }, function(result){
         if(result.codeResult) {
-            console.log("result", result.codeResult.code);
+            alert("result", result.codeResult.code);
         } else {
-            console.log("not detected");
+            alert("not detected");
         }
     });
   }
