@@ -126,10 +126,17 @@ function scanBarCodeQuagga( image )
   });
 }
 
-function setCoordenadas(latitud, longitud)
+function setCoordenadas( position )
 {
-  $( '.lon' ).html( longitud );
-  $( '.lat' ).html( latitud );
+  $( '.lon' ).html( position.coords.longitude );
+  $( '.lat' ).html( position.coords.latitude );
+}
+
+function logout()
+{
+  alert( 'No se pudo obtener la ubicación, el sistema se cerrará' );
+  localStorage.clear();
+  window.location.href = './login.html';
 }
 
 $(document).ready(() =>
@@ -141,10 +148,7 @@ $(document).ready(() =>
     window.location.href = './login.html';
 
   //obtenemos coordenadas
-  navigator.geolocation.getCurrentPosition((position) =>
-  {
-    setCoordenadas(position.coords.latitude, position.coords.longitude);
-  });
+  navigator.geolocation.getCurrentPosition( setCoordenadas, logout );
 
 
 });
