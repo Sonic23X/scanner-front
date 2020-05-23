@@ -23,6 +23,7 @@ function scanQR(node)
       else
       {
         alert("Error al escanear el QR. Intente de nuevo");
+        console.log( res );
       }
     };
     qrcode.decode(reader.result);
@@ -37,7 +38,7 @@ function updateFile()
   $( '.img' ).attr( 'src', img );
 
   scanBarCodeQuagga( img );
-  //scanBarCodeZebra();
+  scanBarCodeZebra();
 }
 
 function scanBarCodeZebra()
@@ -90,6 +91,11 @@ function scanBarCodeQuagga( image )
   });
 }
 
+function setCoordenadas(latitud, longitud)
+{
+
+}
+
 $(document).ready(() =>
 {
 
@@ -97,5 +103,12 @@ $(document).ready(() =>
   {  }
   else
     window.location.href = './login.html';
+
+  //obtenemos coordenadas
+  navigator.geolocation.getCurrentPosition((position) =>
+  {
+    setCoordenadas(position.coords.latitude, position.coords.longitude);
+  });
+
 
 });
