@@ -5,6 +5,34 @@ const TOKEN = localStorage.getItem( 'token' );
 
 let movil = 0;
 
+let isMobile =
+{
+  Android: () =>
+  {
+    return navigator.userAgent.match(/Android/i);
+  },
+  BlackBerry: () =>
+  {
+    return navigator.userAgent.match(/BlackBerry/i);
+  },
+  iOS: () =>
+  {
+      return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+  },
+  Opera: () =>
+  {
+      return navigator.userAgent.match(/Opera Mini/i);
+  },
+  Windows: () =>
+  {
+      return navigator.userAgent.match(/IEMobile/i);
+  },
+  any: () =>
+  {
+      return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+  }
+};
+
 function scanQR(node)
 {
   let reader = new FileReader();
@@ -35,10 +63,16 @@ function updateFile()
 {
   let img = URL.createObjectURL( $( '#fileBar' )[0].files[0] );
 
-  $( '.img' ).attr( 'src', img );
+  if ( isMobile.any() )
+  {
+    scanBarCodeQuagga( img );
+  }
+  else
+  {
+    $( '.img' ).attr( 'src', img );
+    scanBarCodeZebra();
+  }
 
-  scanBarCodeQuagga( img );
-  scanBarCodeZebra();
 }
 
 function scanBarCodeZebra()
@@ -49,7 +83,8 @@ function scanBarCodeZebra()
   codeReader.decodeFromImage(img)
             .then(result =>
             {
-              $( '.resultScan' ).html(result);
+              console.log( result );
+              $( '.resultScan' ).html(result.text);
               $( '#scan-type' ).removeClass( 'fa-qrcode' );
               $( '#scan-type' ).addClass( 'fa-barcode' );
             })
@@ -93,7 +128,8 @@ function scanBarCodeQuagga( image )
 
 function setCoordenadas(latitud, longitud)
 {
-
+  $( '.lon' ).html( longitud );
+  $( '.lat' ).html( latitud );
 }
 
 $(document).ready(() =>
