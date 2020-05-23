@@ -55,7 +55,7 @@ function scanBarCodeZebra()
             })
             .catch(err =>
             {
-              alert( 'Error al escanear' );
+              alert( 'Error al escanear | zebra' );
             });
 }
 
@@ -86,7 +86,7 @@ function scanBarCodeQuagga( image )
       $( '#scan-type' ).addClass( 'fa-barcode' );
     } else
     {
-        alert( 'Error al escanear' );
+        alert( 'Error al escanear | movil' );
     }
   });
 }
