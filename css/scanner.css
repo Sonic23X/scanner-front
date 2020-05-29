@@ -23,3 +23,35 @@
 {
   display: none;
 }
+
+.no-permission
+{
+  display: none;
+  text-align: center;
+
+  margin-top: 23%
+}
+
+#step2
+{
+  display: none;
+  margin-top: 5%;
+}
+
+.card-form
+{
+  width: 80%;
+  margin-left: 10%;
+}
+
+#step3
+{
+  display: none;
+  margin-top: 20%;
+}
+
+.card-folio
+{
+  width: 40%;
+  margin-left: 30%;
+}

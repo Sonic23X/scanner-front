@@ -1,4 +1,5 @@
-const API_URL = 'https://cloud-scanner.cludevs.com.mx/api/';
+//const API_URL = 'https://cloud-scanner.cludevs.com.mx/api/';
+const API_URL = 'http://localhost:8000/api/';
 
 function imprimir( destino, contenedor, mensaje, tiempo, tipo = false )
 {
@@ -59,7 +60,7 @@ $(document).ready(() =>
         {
           //guardamos información escencial
           localStorage.setItem( 'token', response.access_token );
-          localStorage.setItem( 'ususario', response.user.id );
+          localStorage.setItem( 'usuario', response.user.id );
           localStorage.setItem( 'empresa', response.user.idEmpresa );
 
           //redireccionamos a la pagina del panel
