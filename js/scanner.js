@@ -1,5 +1,5 @@
-//const API_URL = 'https://cloud-scanner.cludevs.com.mx/api/';
-const API_URL = 'http://localhost:8000/api/';
+const API_URL = 'https://cloud-scanner.cludevs.com.mx/api/';
+//const API_URL = 'http://localhost:8000/api/';
 const EMPRESA = localStorage.getItem( 'empresa' );
 const PROCESO = localStorage.getItem( 'proceso' );
 const USUARIO = localStorage.getItem( 'usuario' );
