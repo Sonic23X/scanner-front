@@ -84,11 +84,11 @@
             <form class="productForm">
 
               <div class="row">
-                <div class="col">
+                <div class="col-sm-6">
                   <label for="description">Descripción del producto</label>
                   <input type="text" name="description" class="form-control" id="description">
                 </div>
-                <div class="col">
+                <div class="col-sm-6">
                   <label for="medida">Medida del producto</label>
                   <select class="custom-select" id="medida">
 
@@ -97,38 +97,38 @@
               </div>
 
               <div class="row mt-5">
-                <div class="col">
-                  <label for="qty">QTY</label>
-                  <input type="text" name="qty" class="form-control" id="qty">
+                <div class="col-sm-4">
+                  <label for="qty">Cantidad</label>
+                  <input type="number" name="qty" class="form-control" id="qty">
                 </div>
-                <div class="col">
+                <div class="col-sm-4">
                   <label for="serie">Código de serie</label>
                   <input type="number" name="serie" class="form-control" id="serie">
                 </div>
-                <div class="col">
+                <div class="col-sm-4">
                   <label for="caducidad">Caducidad</label>
                   <input type="date" name="caducidad" class="form-control" id="caducidad">
                 </div>
               </div>
 
               <div class="row mt-5">
-                <div class="col">
+                <div class="col-sm-6">
                   <label for="area">Área</label>
                   <select class="custom-select" id="area">
 
                   </select>
                 </div>
-                <div class="col">
-                  <div class="dropzone clsbox" id="theDropzone"></div>
+                <div class="col-sm-6">
+                  <div class="dropzone clsbox mobile-space" id="theDropzone"></div>
                 </div>
               </div>
 
               <div class="row mt-5">
-                <div class="col">
+                <div class="col-sm-6">
                   <button type="button" name="button" class="btn btn-block btn-secondary" onClick="back()">Atrás</button>
                 </div>
-                <div class="col">
-                  <input type="submit" class="btn btn-block btn-secondary" value="Continuar">
+                <div class="col-sm-6">
+                  <input type="submit" class="btn btn-block btn-secondary mobile-space" value="Continuar">
                 </div>
               </div>
 
@@ -146,7 +146,7 @@
             <h5>Operación: <span class="folio_operation"></span></h5>
 
             <button type="button" name="button" class="btn btn-block btn-secondary mt-3" onclick="restart()">Escanear otro producto</button>
-            <button type="button" name="button" class="btn btn-block btn-secondary">Imprimir</button>
+            <button type="button" name="button" class="btn btn-block btn-secondary mt-3 mobile-space">Imprimir</button>
           </div>
         </div>
       </div>

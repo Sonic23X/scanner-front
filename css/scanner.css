@@ -46,7 +46,7 @@
 
 #step3
 {
-  display: none;
+  /*display: none;*/
   margin-top: 20%;
 }
 
@@ -54,4 +54,24 @@
 {
   width: 40%;
   margin-left: 30%;
+}
+
+@media (max-width: 600px)
+{
+  .mobile-space
+  {
+    margin-top: 3%;
+  }
+
+  #step3
+  {
+    /*display: none;*/
+    margin-top: 60%;
+  }
+
+  .card-folio
+  {
+    width: 80%;
+    margin-left: 10%;
+  }
 }
