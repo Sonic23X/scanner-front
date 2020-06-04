@@ -13,16 +13,6 @@ var cod;
 var lon;
 var lat;
 
-//Crear el dropzone
-Dropzone.autoDiscover = false;
-var myDropzone = new Dropzone("div#theDropzone", { url: "/file/post"});
-
-myDropzone.on("addedfile", function(file)
-{
-  files.push( file );
-});
-
-
 let isMobile =
 {
   Android: () =>
@@ -160,6 +150,31 @@ function permissionAgain()
   location.reload();
 }
 
+function setOfServer( arr )
+{
+  arr = arr.replace('[', '');
+  arr = arr.replace(']', '');
+  arr = arr.split( ',' );
+
+  arr.forEach((item, i) =>
+  {
+    item = item.replace('"', '');
+    item = item.replace('"', '');
+
+    fetch( API_URL + 'image/' + item, { headers: { 'Authorization': `Bearer ${TOKEN}` }  } )
+      .then(res => res.blob())
+      .then(blob =>
+      {
+        let file = URL.createObjectURL(blob);
+
+        console.log( typeof( file ) );
+    });
+
+
+  });
+
+}
+
 function toProductForm( response )
 {
   //escondemos el formulario de lectura y mostramos el form
@@ -176,6 +191,8 @@ function toProductForm( response )
     $( '#qty' ).val( producto.qty );
     $( '#serie' ).val( producto.serie );
     $( '#caducidad' ).val( producto.caducidad );
+
+    setOfServer( producto.images );
 
     producto = true;
   }
@@ -234,7 +251,7 @@ function resetForm()
   $( '#area' ).val( 1 );
   $( '#search' ).val( '' );
 
-  myDropzone.removeAllFiles( true );
+  $( '.image-body' ).html( '' );
 }
 
 function restart()
@@ -242,7 +259,28 @@ function restart()
   $( '#step3' ).hide('slow');
   $( '#step1' ).show('slow');
 
-  resetForm();
+  resetForm( );
+  files = [ ];
+}
+
+function viewImage( url )
+{
+  let win = window.open( url, '_blank' );
+  win.focus( );
+}
+
+function deletePhoto( id )
+{
+  //remove view
+  $( `#image_${id}` ).remove();
+
+  //remove of array
+  let drop = files[ id ];
+
+  let i = files.indexOf( drop );
+
+  if ( i !== -1 )
+    files.splice( i, 1 );
 }
 
 $(document).ready( () =>
@@ -311,6 +349,31 @@ $(document).ready( () =>
 
     },
     error: ( jqXHR, textStatus, errorThrown ) => { alert( 'No se pudieron obtener las areas' ); },
+  });
+
+  $( '#productImage' ).change( event =>
+  {
+
+    for ( let i = 0; i < $( '#productImage' )[ 0 ].files.length; i++ )
+    {
+      let img = URL.createObjectURL( $( '#productImage' )[ 0 ].files[ i ] );
+
+      let imgView =
+      `
+        <div class="col-sm" id="image_${i}">
+          <img src="${img}" class="img-preview" onClick="viewImage('${img}')" />
+          <br>
+          <button type="button" class="mt-2 btn btn-outline-danger" onClick="deletePhoto('${i}')">
+            Quitar
+          </button>
+        </div>
+      `;
+
+      files.push( $( '#productImage' )[ 0 ].files[ i ] );
+
+      $( '.image-body' ).append( imgView );
+    }
+
   });
 
   $( '.productForm' ).submit(function(event)

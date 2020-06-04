@@ -44,6 +44,12 @@
   margin-left: 10%;
 }
 
+.img-preview
+{
+  width: 150px;
+  height: 150px;
+}
+
 #step3
 {
   display: none;
