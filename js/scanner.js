@@ -152,27 +152,29 @@ function permissionAgain()
 
 function setOfServer( arr )
 {
-  arr = arr.replace('[', '');
-  arr = arr.replace(']', '');
-  arr = arr.split( ',' );
-
-  arr.forEach((item, i) =>
+  if (arr != '[]')
   {
-    item = item.replace('"', '');
-    item = item.replace('"', '');
+    arr = arr.replace('[', '');
+    arr = arr.replace(']', '');
+    arr = arr.split( ',' );
 
-    fetch( API_URL + 'image/' + item, { headers: { 'Authorization': `Bearer ${TOKEN}` }  } )
-      .then(res => res.blob())
-      .then(blob =>
-      {
-        let file = URL.createObjectURL(blob);
+    arr.forEach((item, i) =>
+    {
+      item = item.replace('"', '');
+      item = item.replace(' ', '');
+      item = item.replace('"', '');
 
-        console.log( typeof( file ) );
+      fetch( API_URL + 'image/' + item, { headers: { 'Authorization': `Bearer ${TOKEN}` }  } )
+        .then(res => res.blob())
+        .then(blob =>
+        {
+          let file = new File([blob], "product_photo.png",{type:"image/png", lastModified:new Date()});
+          files.push( file );
+
+          setViewImages();
+      });
     });
-
-
-  });
-
+  }
 }
 
 function toProductForm( response )
@@ -271,9 +273,6 @@ function viewImage( url )
 
 function deletePhoto( id )
 {
-  //remove view
-  $( `#image_${id}` ).remove();
-
   //remove of array
   let drop = files[ id ];
 
@@ -281,6 +280,31 @@ function deletePhoto( id )
 
   if ( i !== -1 )
     files.splice( i, 1 );
+
+  setViewImages();
+
+}
+
+function setViewImages()
+{
+  $( '.image-body' ).html( '' );
+  for (let i = 0; i < files.length; i++)
+  {
+    let img = URL.createObjectURL( files[ i ] );
+
+    let imgView =
+    `
+      <div class="col-sm" id="image_${i}">
+        <img src="${img}" class="img-preview" onClick="viewImage('${img}')" />
+        <br>
+        <button type="button" class="mt-2 btn btn-outline-danger" onClick="deletePhoto('${i}')">
+          Quitar
+        </button>
+      </div>
+    `;
+
+    $( '.image-body' ).append( imgView );
+  }
 }
 
 $(document).ready( () =>
@@ -354,26 +378,29 @@ $(document).ready( () =>
   $( '#productImage' ).change( event =>
   {
 
-    for ( let i = 0; i < $( '#productImage' )[ 0 ].files.length; i++ )
+    if ($( '#productImage' )[ 0 ].files.length < 3)
     {
-      let img = URL.createObjectURL( $( '#productImage' )[ 0 ].files[ i ] );
 
-      let imgView =
-      `
-        <div class="col-sm" id="image_${i}">
-          <img src="${img}" class="img-preview" onClick="viewImage('${img}')" />
-          <br>
-          <button type="button" class="mt-2 btn btn-outline-danger" onClick="deletePhoto('${i}')">
-            Quitar
-          </button>
-        </div>
-      `;
+      for ( let i = 0; i < $( '#productImage' )[ 0 ].files.length; i++ )
+      {
+        if ( files.length < 3)
+        {
+          files.push( $( '#productImage' )[ 0 ].files[ i ] );
+          setViewImages();
+        }
+        else
+        {
+          alert( 'Solo se permite 3 imagenes por producto' );
+          return;
+        }
+      }
 
-      files.push( $( '#productImage' )[ 0 ].files[ i ] );
-
-      $( '.image-body' ).append( imgView );
     }
-
+    else
+    {
+      alert( 'Solo se permite 3 imagenes por producto' );
+      return;
+    }
   });
 
   $( '.productForm' ).submit(function(event)
