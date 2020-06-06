@@ -388,7 +388,7 @@ $(document).ready( () =>
 
       for ( let i = 0; i < $( '#productImage' )[ 0 ].files.length; i++ )
       {
-        if ( files.length < 3)
+        if ( files.length < 4)
         {
           files.push( $( '#productImage' )[ 0 ].files[ i ] );
           setViewImages();
@@ -399,7 +399,6 @@ $(document).ready( () =>
           return;
         }
       }
-
     }
     else
     {
@@ -434,6 +433,8 @@ $(document).ready( () =>
     {
       formData.set( 'file_' + i, item );
     });
+
+    console.log( formData );
 
     $.ajax({
       url: API_URL + `lectura`,
