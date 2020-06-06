@@ -383,7 +383,7 @@ $(document).ready( () =>
   $( '#productImage' ).change( event =>
   {
 
-    if ($( '#productImage' )[ 0 ].files.length < 3)
+    if ($( '#productImage' )[ 0 ].files.length < 4)
     {
 
       for ( let i = 0; i < $( '#productImage' )[ 0 ].files.length; i++ )
