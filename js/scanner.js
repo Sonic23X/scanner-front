@@ -307,6 +307,11 @@ function setViewImages()
   }
 }
 
+function print()
+{
+  window.print();
+}
+
 $(document).ready( () =>
 {
 
