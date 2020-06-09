@@ -13,6 +13,16 @@ var cod;
 var lon;
 var lat;
 
+function imprimir( titulo, mensaje, tipo )
+{
+  Swal.fire({
+    icon: tipo,
+    title: titulo,
+    text: mensaje,
+    allowOutsideClick: false,
+  });
+}
+
 let isMobile =
 {
   Android: () =>
@@ -58,7 +68,7 @@ function scanQR(node)
       }
       else
       {
-        alert("Error al escanear el QR. Intente de nuevo");
+        imprimir( 'Error', 'No se detectó el código QR. Intente de nuevo', 'error' );
       }
     };
     qrcode.decode(reader.result);
@@ -97,7 +107,7 @@ function scanBarCodeZebra()
             })
             .catch(err =>
             {
-              alert( 'Error al escanear | zebra' );
+              imprimir( 'Error', 'No se detectó el código de barras. Intente de nuevo', 'error' );
             });
 }
 
@@ -128,7 +138,7 @@ function scanBarCodeQuagga( image )
       $( '#scan-type' ).addClass( 'fa-barcode' );
     } else
     {
-        alert( 'Error al escanear | movil' );
+        imprimir( 'Error', 'No se detectó el código de barras. Intente de nuevo', 'error' );
     }
   });
 }
@@ -354,7 +364,7 @@ $(document).ready( () =>
       });
 
     },
-    error: ( jqXHR, textStatus, errorThrown ) => { alert( 'No se pudieron obtener las medidas' ); },
+    error: ( jqXHR, textStatus, errorThrown ) => { imprimir( 'Error', 'No se pudo conectar con el servidor, intente de nuevo más tarde', 'error' ); },
   });
 
   $.ajax({
@@ -377,32 +387,33 @@ $(document).ready( () =>
       });
 
     },
-    error: ( jqXHR, textStatus, errorThrown ) => { alert( 'No se pudieron obtener las areas' ); },
+    error: ( jqXHR, textStatus, errorThrown ) => { imprimir( 'Error', 'No se pudo conectar con el servidor, intente de nuevo más tarde', 'error' ); },
   });
 
   $( '#productImage' ).change( event =>
   {
 
-    if ($( '#productImage' )[ 0 ].files.length < 4)
+    if ($( '#productImage' )[ 0 ].files.length < 3)
     {
 
       for ( let i = 0; i < $( '#productImage' )[ 0 ].files.length; i++ )
       {
-        if ( files.length < 4)
+        if ( files.length < 3)
         {
           files.push( $( '#productImage' )[ 0 ].files[ i ] );
+          imprimir( '', '¡Imagen(es) cargada(s) con exito!', 'success' );
           setViewImages();
         }
         else
         {
-          alert( 'Solo se permite 3 imagenes por producto' );
+          imprimir( 'Advertencia', 'Solo se permite la carga de 3 imagenes por producto', 'warning' );
           return;
         }
       }
     }
     else
     {
-      alert( 'Solo se permite 3 imagenes por producto' );
+      imprimir( 'Advertencia', 'Solo se permite la carga de 3 imagenes por producto', 'warning' );
       return;
     }
   });

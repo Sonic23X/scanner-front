@@ -3,28 +3,14 @@ const API_URL = 'https://cloud-scanner.cludevs.com.mx/api/';
 const EMPRESA = localStorage.getItem( 'empresa' );
 const TOKEN = localStorage.getItem( 'token' );
 
-function imprimir( destino, contenedor, mensaje, tiempo, tipo = false )
+function imprimir( titulo, mensaje, tipo )
 {
-  //colocar el texto y despues mostrarlo
-  $(contenedor).html(mensaje);
-  $(destino).show();
-
-  //cambiamos el tipo de alerta segun se establesca
-  if (tipo)
-  {
-    $(destino).removeClass('alert-danger');
-    $(destino).addClass('alert-success');
-  } else
-  {
-    $(destino).removeClass('alert-success');
-    $(destino).addClass('alert-danger');
-  }
-
-  //funcion para espera un segundo y después esconder el mensaje
-  setTimeout(() =>
-  {
-      $(destino).hide(1000);
-    }, tiempo);
+  Swal.fire({
+    icon: tipo,
+    title: titulo,
+    text: mensaje,
+    allowOutsideClick: false,
+  });
 }
 
 function loadProcesses()
@@ -63,7 +49,7 @@ function loadProcesses()
     },
     error: ( jqXHR, textStatus, errorThrown ) =>
     {
-      alert( 'Error al obtener los procesos' );
+      imprimir ( 'Error', 'No se puede obtener los procesos', 'error' );
     }
   });
 }

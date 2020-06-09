@@ -1,30 +1,15 @@
 const API_URL = 'https://cloud-scanner.cludevs.com.mx/api/';
 //const API_URL = 'http://localhost:8000/api/';
 
-function imprimir( destino, contenedor, mensaje, tiempo, tipo = false )
+function imprimir( titulo, mensaje, tipo )
 {
-  //colocar el texto y despues mostrarlo
-  $(contenedor).html(mensaje);
-  $(destino).show();
-
-  //cambiamos el tipo de alerta segun se establesca
-  if (tipo)
-  {
-    $(destino).removeClass('alert-danger');
-    $(destino).addClass('alert-success');
-  } else
-  {
-    $(destino).removeClass('alert-success');
-    $(destino).addClass('alert-danger');
-  }
-
-  //funcion para espera un segundo y después esconder el mensaje
-  setTimeout(() =>
-  {
-      $(destino).hide(1000);
-    }, tiempo);
+  Swal.fire({
+    icon: tipo,
+    title: titulo,
+    text: mensaje,
+    allowOutsideClick: false,
+  });
 }
-
 
 $(document).ready(() =>
 {
@@ -54,8 +39,6 @@ $(document).ready(() =>
       data: data,
       success: response =>
       {
-        console.log( response );
-
         if ( response.access_token )
         {
           //guardamos información escencial
@@ -67,7 +50,7 @@ $(document).ready(() =>
           window.location.href = './process.html';
         } else
         {
-          imprimir( '.validate-input', '.validate-message', response.message, 3000 );
+          imprimir( 'Error', response.message, 'error' );
           localStorage.removeItem( 'token' ); //en caso de que exista, lo borramos ya que la sesión es incorrecta
         }
       },
