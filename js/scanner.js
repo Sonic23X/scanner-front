@@ -277,8 +277,7 @@ function restart()
 
 function viewImage( url )
 {
-  let win = window.open( url, '_blank' );
-  win.focus( );
+  window.open( url, '_blank' );
 }
 
 function deletePhoto( id )
