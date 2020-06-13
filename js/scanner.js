@@ -292,6 +292,7 @@ function deletePhoto( id )
     files.splice( i, 1 );
 
   setViewImages();
+  imprimir( '', '¡Imagen eliminada con exito!', 'success' );
 
 }
 
