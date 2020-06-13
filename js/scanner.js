@@ -317,7 +317,7 @@ function setViewImages()
   }
 }
 
-function print()
+function printCode()
 {
   window.print();
 }
@@ -444,8 +444,6 @@ $(document).ready( () =>
     {
       formData.set( 'file_' + i, item );
     });
-
-    console.log( formData );
 
     $.ajax({
       url: API_URL + `lectura`,
